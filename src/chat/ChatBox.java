@@ -1,27 +1,29 @@
 package chat;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import java.util.ArrayList;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import java.awt.Font;
 
 public class ChatBox {
 	JFrame frame;
-	ArrayList<JLabel> chats;
-	
+	JTextArea chats;
+	JScrollPane scrollPane;
 	public ChatBox() {
 		frame = new JFrame("Chats");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1500, 1500);
 		frame.setVisible(true);
-		chats = new ArrayList<JLabel>();
+		chats = new JTextArea(5, 20);
+		scrollPane = new JScrollPane(chats);
+		chats.setEditable(false);
+		chats.setVisible(true);
+		frame.add(chats);
+		chats.setFont(new Font("Serif", Font.PLAIN, 30));
+		chats.setVisible(true);
 	}
 	public void addChat(String message) {
-		chats.add(new JLabel(message));
-		JLabel label = chats.get(chats.size()-1);
-		label.setFont (label.getFont ().deriveFont (20.0f));
-		for(int i = 0; i < chats.size(); i++) {
-			System.out.println(chats.get(i));
-			frame.getContentPane().add(chats.get(i));
-		}
+		chats.append(message + "\n");
 	}
 }

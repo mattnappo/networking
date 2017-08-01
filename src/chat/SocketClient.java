@@ -15,11 +15,17 @@ public class SocketClient {
 	BufferedReader in;
 	String username;
 	ArrayList<String> users;
+	InputBox inputBox;
 	
-	public SocketClient(String username) {
+	public SocketClient() {
+		InputBox inputBox = new InputBox();
 		users = new ArrayList<String>();
+		username = inputBox.register();
 		users.add(username);
 		connect();
+		while(true) {
+			out.println(username + ": " + inputBox.getMessage());
+		}
 	}
 	public void connect() {
 		try {
@@ -42,6 +48,6 @@ public class SocketClient {
 	}
 	
 	public void chat(String user, String message) {
-		out.println(user + ": " + message);
+		
 	}
 }
