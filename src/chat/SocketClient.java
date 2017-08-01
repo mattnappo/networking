@@ -29,8 +29,8 @@ public class SocketClient {
 	}
 	public void connect() {
 		try {
-			host = "127.0.0.1";
-			port = 8000;
+			host = "mattnappo.ddns.net";
+			port = 25565;
 			socket = new Socket(host, port);
 			System.out.println("Client: Connection established");
 			
