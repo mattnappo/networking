@@ -1,11 +1,13 @@
 package chat;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class SocketServer {
 	
@@ -14,12 +16,39 @@ public class SocketServer {
 	int port;
 	BufferedReader in;
 	PrintWriter out;
-	ArrayList<Thread> clients;
+	ArrayList<Connection> clients;
 	ArrayList<String> msgs;
 	
 	public SocketServer() {
-		clients = new ArrayList<Thread>();
-		msgs = new ArrayList<String>();
+		clients = new ArrayList<Connection>();
+		msgs = new ArrayList<String>(); // each time a message is recieved, add it to this arrayList
+		
+		//writing thread in here
+		
+		Thread writer = new Thread() {
+			public void run() {
+				int msgsSent = 0;
+				PriorityQueue<String> queue = new PriorityQueue<String>();
+				while(true) {
+					if(msgs.size() > msgsSent) {
+						try {
+							for(int i = 0; i < clients.size(); i++) {
+								String line = clients.get(i).in.readLine();
+								queue.add(line);
+							}
+						} catch (IOException e) {
+							System.out.println("Could not read.");
+						}
+					}
+					if(queue != null) {
+						String msg = queue.poll();
+						for(int i = 0; i < clients.size(); i++) {
+							clients.get(i).out.println(msg);
+						}
+					}
+				}
+			}
+		};
 	}
 	void newThread() {
 		Thread t = new Thread() {
@@ -28,9 +57,9 @@ public class SocketServer {
 				try {
 					out = new PrintWriter(client.getOutputStream(), true);
 					in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-					System.out.println("Server: Created I/O");
+					System.out.println("Created IO.");
 				} catch(java.io.IOException e) {
-					System.out.println("Could not read.");
+					System.out.println("Could not create IO.");
 					System.exit(-1);
 				}		
 				

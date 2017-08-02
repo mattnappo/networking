@@ -28,22 +28,33 @@ public class SocketClient {
 		users.add(username);
 		
 		connect();
+		
+		Thread read = new Thread() {
+			public void run() {
+				while(true) {
+					String line;
+					try {
+						line = in.readLine();
+						chats.add(line);
+						chatBox.addChat(line);
+					} catch (IOException e) {
+						System.out.println("Error reading.");
+						System.exit(-1);
+					}
+				}
+			}
+		};
+		
+		
 		startChat();
 
 	}
+	
+
+	
 	public void startChat() {
 		while(true) {
-			System.out.println("Client's while ran once");
 			out.println(username + ": " + inputBox.getInput("Message: "));
-			String line;
-			try {
-				line = in.readLine();
-				chats.add(line);
-				chatBox.addChat(line);
-			} catch (IOException e) {
-				System.out.println("Error reading.");
-				System.exit(-1);
-			}
 		}
 	}
 	public void connect() {

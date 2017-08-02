@@ -6,5 +6,4 @@ public class Server {
 		SocketServer server = new SocketServer();
 		server.listenSocket();
 	}
-
 }
