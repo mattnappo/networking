@@ -44,14 +44,8 @@ public class SocketClient {
 				}
 			}
 		};
-		
-		
 		startChat();
-
 	}
-	
-
-	
 	public void startChat() {
 		while(true) {
 			out.println(username + ": " + inputBox.getInput("Message: "));
@@ -62,17 +56,17 @@ public class SocketClient {
 			host = "localhost";
 			port = 8000;
 			socket = new Socket(host, port);
-			System.out.println("Client: Connection established");
+			System.out.println("Connection established");
 			
 			out = new PrintWriter(socket.getOutputStream(), true);
 		    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		    System.out.println("Client: Created I/O");
+		    System.out.println("Created IO");
 		    
 		} catch (java.net.UnknownHostException e) {
 			System.out.println("Unknown host: " + host + ":" + port);
 			System.exit(-1);
 		} catch (java.io.IOException e) {
-			System.out.println("No I/O " + port);
+			System.out.println("No IO " + port);
 			System.exit(-1);
 		}
 	}
