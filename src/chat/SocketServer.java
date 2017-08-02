@@ -38,7 +38,7 @@ public class SocketServer {
 							}
 						} catch (IOException e) {
 							System.out.println("Could not read.");
-						}
+						}	
 					}
 					if(queue != null) {
 						String msg = queue.poll();
