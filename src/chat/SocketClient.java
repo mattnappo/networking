@@ -1,6 +1,7 @@
 package chat;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -16,21 +17,34 @@ public class SocketClient {
 	String username;
 	ArrayList<String> users;
 	InputBox inputBox;
+	ChatBox chatBox = new ChatBox();
 	
 	public SocketClient() {
-		InputBox inputBox = new InputBox();
+		inputBox = new InputBox();
 		users = new ArrayList<String>();
-		username = inputBox.register();
+		username = inputBox.getInput("Username: ");
 		users.add(username);
 		connect();
+		startChat();
+
+	}
+	public void startChat() {
 		while(true) {
-			out.println(username + ": " + inputBox.getMessage());
+			out.println(username + ": " + inputBox.getInput("Message: "));
+			String line;
+			try {
+				line = in.readLine();
+				chatBox.addChat(line);
+			} catch (IOException e) {
+				System.out.println("Error reading.");
+				System.exit(-1);
+			}
 		}
 	}
 	public void connect() {
 		try {
-			host = "mattnappo.ddns.net";
-			port = 25565;
+			host = "localhost";
+			port = 8000;
 			socket = new Socket(host, port);
 			System.out.println("Client: Connection established");
 			
@@ -47,7 +61,4 @@ public class SocketClient {
 		}
 	}
 	
-	public void chat(String user, String message) {
-		
-	}
 }

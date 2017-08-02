@@ -13,12 +13,6 @@ public class SocketServer {
 	int port;
 	BufferedReader in;
 	PrintWriter out;
-	ChatBox chatBox = new ChatBox();
-	
-	public void write(String line) {
-		//Write data to chatBox
-		chatBox.addChat(line);
-	}
 	
 	public void listenSocket(){
 		
@@ -58,7 +52,7 @@ public class SocketServer {
 	    		//Read a line from the client
 	    		line = in.readLine();
 	    		if(line!=null) {
-	    			write(line);
+	    			out.println(line);
 	    		}
 	    	} catch (java.io.IOException e) {
 	    		System.out.println("Read failed");

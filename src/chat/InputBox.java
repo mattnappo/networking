@@ -1,17 +1,26 @@
 package chat;
 
+//import javax.swing.JDialog;
+//import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+//import javax.swing.JTextArea;
 
 public class InputBox {
 	
-	public String register() {
-		String username = JOptionPane.showInputDialog("Username: ");
-		return username;
-	}
+	//JOptionPane box;
 	
-	public String getMessage() {
-		String message = JOptionPane.showInputDialog("Message: ");
-		return message;
+	public String getInput(String prompt) {
+		String inp = JOptionPane.showInputDialog(prompt);
+		return inp;
+		/*
+		box = new JOptionPane();
+		JTextArea textarea = new JTextArea();
+		JLabel label = new JLabel(prompt);
+		box.add(textarea);
+		box.add(label);
+		return textarea.getText();
+		
+		*/
 	}
-	
+		
 }
