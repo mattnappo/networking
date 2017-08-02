@@ -18,22 +18,27 @@ public class SocketClient {
 	ArrayList<String> users;
 	InputBox inputBox;
 	ChatBox chatBox = new ChatBox();
+	ArrayList<String> chats;
 	
 	public SocketClient() {
 		inputBox = new InputBox();
 		users = new ArrayList<String>();
+		chats = new ArrayList<String>();
 		username = inputBox.getInput("Username: ");
 		users.add(username);
+		
 		connect();
 		startChat();
 
 	}
 	public void startChat() {
 		while(true) {
+			System.out.println("Client's while ran once");
 			out.println(username + ": " + inputBox.getInput("Message: "));
 			String line;
 			try {
 				line = in.readLine();
+				chats.add(line);
 				chatBox.addChat(line);
 			} catch (IOException e) {
 				System.out.println("Error reading.");
