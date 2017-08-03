@@ -1,13 +1,11 @@
 package chat;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 public class SocketServer {
 	
@@ -28,47 +26,58 @@ public class SocketServer {
 		
 		Thread writer = new Thread() {
 			public void run() {
-				System.out.println("writer thread is running");
 				int msgsSent = 0;
-				PriorityQueue<String> queue = new PriorityQueue<String>();
+				ArrayList<String> queue = new ArrayList<String>();
 				while(true) {
-					if(msgs.size() > msgsSent) {
-						try {
-							for(int i = 0; i < clients.size(); i++) {
-								String line = clients.get(i).in.readLine();
-								queue.add(line);
-							}
-						} catch (IOException e) {
-							System.out.println("Could not read");
-						}	
+					try {
+						sleep(16);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
 					}
-					if(queue != null) {
-						String msg = queue.poll();
+					if(msgs.size() > msgsSent) {
+						for(int i = msgsSent; i < msgs.size(); i++) {
+							queue.add(msgs.get(i));
+						}
+						msgsSent = msgs.size();
+					}
+					if(queue.size() > 0) {
+						String msg = pop(queue);
 						for(int i = 0; i < clients.size(); i++) {
 							clients.get(i).out.println(msg);
 						}
-						msgsSent++;
+						
 					}
 				}
 			}
 		};
 		writer.start();
 	}
-
-	public Thread newReadThread() {
+	
+	public String pop(ArrayList<String> queue) {
+		if(queue.size() != 0) {
+			String head = queue.get(0);
+			queue.remove(0);
+			return head;
+		} else {
+			return "";
+		}
+	}
+	public Thread newReadThread(Connection pClient) {
 		Thread read = new Thread() {
 			public void run() {
+				System.out.println("reader thread is running");
 				while(true) {
 					try {
 						//Read a line from the client
-						for(int i = 0; i < clients.size(); i++) {
-							String line = clients.get(i).in.readLine();
-							if(line!=null) {
-								msgs.add(line);
-								System.out.println("MSGS: " + msgs);
-								clients.get(i).out.println(line);
-							}
+						
+						String line = pClient.in.readLine();
+						if(line!=null) {
+							System.out.println("MSGLine: " + line);
+							msgs.add(line);
+							System.out.println("MSGS: " + msgs);
+							//clients.get(i).out.println(line);
 						}
+						
 					} catch (java.io.IOException e) {
 						System.out.println("Read failed");
 						System.exit(-1);
@@ -95,8 +104,9 @@ public class SocketServer {
 			    client = server.accept();
 				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 				BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-				clients.add(new Connection(out, in));
-				Thread thread = newReadThread();
+				Connection newClient = new Connection(out, in);
+				clients.add(newClient);
+				Thread thread = newReadThread(newClient);
 				readers.add(thread);
 				thread.start();
 			    System.out.println("Accepted client");

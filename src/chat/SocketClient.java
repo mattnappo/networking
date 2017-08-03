@@ -36,6 +36,8 @@ public class SocketClient {
 					try {
 						line = in.readLine();
 						chats.add(line);
+						System.out.println("client chats " + chats);
+						System.out.println("client line " + line);
 						chatBox.addChat(line);
 					} catch (IOException e) {
 						System.out.println("Error reading.");
@@ -44,7 +46,9 @@ public class SocketClient {
 				}
 			}
 		};
+		read.start();
 		startChat();
+		
 	}
 	public void startChat() {
 		while(true) {
@@ -53,7 +57,7 @@ public class SocketClient {
 	}
 	public void connect() {
 		try {
-			host = "localhost";
+			host = "10.144.5.46";
 			port = 8000;
 			socket = new Socket(host, port);
 			System.out.println("Connection established");
@@ -69,6 +73,5 @@ public class SocketClient {
 			System.out.println("No IO " + port);
 			System.exit(-1);
 		}
-	}
-	
+	}	
 }
