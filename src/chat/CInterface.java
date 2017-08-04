@@ -31,16 +31,19 @@ public class CInterface {
 			System.out.println("Could not create GraphicsEnviornment.");
 		}
     }
+    public void clear() {
+    	chats.setText("");
+    }
     public void addComponentToPane(Container pane) {
         chats = new JTextArea();
-        chats.setPreferredSize(new Dimension(1500, 1500));
+        chats.setPreferredSize(new Dimension(500, 500));
         chats.setEditable(false);
         modFont(chats);
 		Color c = new Color(206, 255, 233);
 	    chats.setBackground(c);
         JPanel sendBar = new JPanel();
         input = new JTextField();
-        input.setColumns(50);
+        input.setColumns(30);
         modFont(input);
         sendBar.add(input);
         send = new JButton("Send");

@@ -6,19 +6,16 @@ public class ConwaysGameOfLife {
 	Cell[][] newFrame;
 	
 	public ConwaysGameOfLife() {
-		oldFrame = new Cell[30][30];
+		oldFrame = new Cell[10][10];
 		oldFrame = fill(oldFrame);
 		
-		newFrame = new Cell[30][30];
+		newFrame = new Cell[10][10];
 		newFrame = fill(newFrame);
-		
-		print(oldFrame);
-		print(newFrame);
 	}
 	
 	public Cell[][] fill(Cell[][] arr) {
-		for(int i = 0; i < arr.length; i++) {
-			for(int x = 0; x < arr.length; x++) {
+		for(int i = 0; i < 10; i++) {
+			for(int x = 0; x < 10; x++) {
 				arr[i][x] = new Cell(i, x);
 			}
 		}
@@ -26,12 +23,46 @@ public class ConwaysGameOfLife {
 	}
 	
 	public void print(Cell[][] arr) {
-		for(int i = 0; i < arr.length; i++) {
-			System.out.println(arr[i]);
+		for(int i = 0; i < 10; i++) {
+			for(int x = 0; x < 10; x++) {
+				System.out.print(arr[i][x].getBlock());
+			}
+			System.out.println();
 		}
 	}
 	
+	public void update() {
+		for(int i = 0; i < 10; i++) {
+			for(int x = 0; x < 10; x++) {
+				if(oldFrame[i][x].occupied == true) {
+					if(oldFrame[i][x].findNeighbors(oldFrame) <= 1) {
+						newFrame[i][x].changeState();
+					}
+					if(oldFrame[i][x].findNeighbors(oldFrame) >= 4) {
+						newFrame[i][x].changeState();
+					}
+				} else {
+					if(oldFrame[i][x].findNeighbors(oldFrame) == 3) {
+						newFrame[i][x].changeState();
+					}
+				}
+			}
+		}
+		oldFrame = newFrame;
+	}
+	
 	public static void main(String[] args) {
-		new ConwaysGameOfLife();	
-	}	
+		ConwaysGameOfLife life = new ConwaysGameOfLife();
+		life.oldFrame[3][3].changeState();
+		life.oldFrame[3][4].changeState();
+		life.oldFrame[3][5].changeState();
+		
+		System.out.println(life.oldFrame[3][3].findNeighbors(life.oldFrame));
+		
+		life.print(life.oldFrame);
+		System.out.println("\n");
+		life.update();
+		life.print(life.newFrame);
+		
+	}
 }

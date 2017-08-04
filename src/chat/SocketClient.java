@@ -35,6 +35,11 @@ public class SocketClient {
 					String line;
 					try {
 						line = in.readLine();
+						System.out.println(chats.size());
+						if(chats.size() == 12) {
+							chats = new ArrayList<String>();
+							inter.clear();
+						}
 						chats.add(line);
 						inter.addChat(line);
 					} catch (IOException e) {
@@ -63,7 +68,7 @@ public class SocketClient {
 	}
 	public void connect() {
 		try {
-			host = "localhost";
+			host = "10.144.5.46";
 			port = 8000;
 			socket = new Socket(host, port);
 			System.out.println("Connection established");
