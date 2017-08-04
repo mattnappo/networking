@@ -16,12 +16,12 @@ public class SocketClient {
 	BufferedReader in;
 	String username;
 	ArrayList<String> users;
-	InputBox inputBox;
-	ChatBox chatBox = new ChatBox();
+	CInterface inter;
 	ArrayList<String> chats;
 	
 	public SocketClient() {
-		inputBox = new InputBox();
+		InputBox inputBox = new InputBox();
+		inter = new CInterface();
 		users = new ArrayList<String>();
 		chats = new ArrayList<String>();
 		username = inputBox.getInput("Username: ");
@@ -36,9 +36,7 @@ public class SocketClient {
 					try {
 						line = in.readLine();
 						chats.add(line);
-						System.out.println("client chats " + chats);
-						System.out.println("client line " + line);
-						chatBox.addChat(line);
+						inter.addChat(line);
 					} catch (IOException e) {
 						System.out.println("Error reading.");
 						System.exit(-1);
@@ -52,12 +50,20 @@ public class SocketClient {
 	}
 	public void startChat() {
 		while(true) {
-			out.println(username + ": " + inputBox.getInput("Message: "));
+			String rLine = inter.readChat();
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if(rLine != null) {
+				out.println(username + ": " + rLine);
+			}
 		}
 	}
 	public void connect() {
 		try {
-			host = "10.144.5.46";
+			host = "localhost";
 			port = 8000;
 			socket = new Socket(host, port);
 			System.out.println("Connection established");

@@ -65,17 +65,13 @@ public class SocketServer {
 	public Thread newReadThread(Connection pClient) {
 		Thread read = new Thread() {
 			public void run() {
-				System.out.println("reader thread is running");
 				while(true) {
 					try {
 						//Read a line from the client
 						
 						String line = pClient.in.readLine();
 						if(line!=null) {
-							System.out.println("MSGLine: " + line);
 							msgs.add(line);
-							System.out.println("MSGS: " + msgs);
-							//clients.get(i).out.println(line);
 						}
 						
 					} catch (java.io.IOException e) {
