@@ -18,8 +18,10 @@ public class SocketClient {
 	ArrayList<String> users;
 	CInterface inter;
 	ArrayList<String> chats;
-
-	public SocketClient() {
+	String ip;
+	
+	public SocketClient(String sip) {
+		ip = sip;
 		InputBox inputBox = new InputBox();
 		inter = new CInterface();
 		users = new ArrayList<String>();
@@ -67,9 +69,8 @@ public class SocketClient {
 	}
 	public void connect() {
 		try {
-			host = "localhost";
 			port = 8000;
-			socket = new Socket(host, port);
+			socket = new Socket(ip, port);
 			System.out.println("Connection established");
 
 			out = new PrintWriter(socket.getOutputStream(), true);
