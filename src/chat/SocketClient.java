@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class SocketClient {	
-	
+public class SocketClient {
+
 	Socket socket;
 	int port;
 	String host;
@@ -18,7 +18,7 @@ public class SocketClient {
 	ArrayList<String> users;
 	CInterface inter;
 	ArrayList<String> chats;
-	
+
 	public SocketClient() {
 		InputBox inputBox = new InputBox();
 		inter = new CInterface();
@@ -26,16 +26,15 @@ public class SocketClient {
 		chats = new ArrayList<String>();
 		username = inputBox.getInput("Username: ");
 		users.add(username);
-		
+
 		connect();
-		
+
 		Thread read = new Thread() {
 			public void run() {
 				while(true) {
 					String line;
 					try {
 						line = in.readLine();
-						System.out.println(chats.size());
 						if(chats.size() == 12) {
 							chats = new ArrayList<String>();
 							inter.clear();
@@ -51,7 +50,7 @@ public class SocketClient {
 		};
 		read.start();
 		startChat();
-		
+
 	}
 	public void startChat() {
 		while(true) {
@@ -68,15 +67,15 @@ public class SocketClient {
 	}
 	public void connect() {
 		try {
-			host = "10.144.5.46";
+			host = "localhost";
 			port = 8000;
 			socket = new Socket(host, port);
 			System.out.println("Connection established");
-			
+
 			out = new PrintWriter(socket.getOutputStream(), true);
 		    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		    System.out.println("Created IO");
-		    
+
 		} catch (java.net.UnknownHostException e) {
 			System.out.println("Unknown host: " + host + ":" + port);
 			System.exit(-1);
@@ -84,5 +83,5 @@ public class SocketClient {
 			System.out.println("No IO " + port);
 			System.exit(-1);
 		}
-	}	
+	}
 }

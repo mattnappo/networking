@@ -38,18 +38,24 @@ public class CInterface {
         chats = new JTextArea();
         chats.setPreferredSize(new Dimension(500, 500));
         chats.setEditable(false);
-        modFont(chats);
-		Color c = new Color(206, 255, 233);
+        
+        chats.setFont(new Font("Arial", Font.PLAIN, 40));//modFont(chats);
+		
+        Color c = new Color(206, 255, 233);
 	    chats.setBackground(c);
         JPanel sendBar = new JPanel();
         input = new JTextField();
         input.setColumns(30);
-        modFont(input);
+        
+        input.setFont(new Font("Arial", Font.PLAIN, 40));//modFont(input);
+        
         sendBar.add(input);
         send = new JButton("Send");
-        modFont(send);
-        sendBar.add(send);
         
+        send.setFont(new Font("Arial", Font.PLAIN, 40));//modFont(send);
+        
+        sendBar.add(send);
+
         cards = new JPanel(new CardLayout());
         cards.add(sendBar, BUTTONPANEL);
 
@@ -65,7 +71,7 @@ public class CInterface {
         frame.pack();
         frame.setVisible(true);
     }
-    
+
     public void addChat(String message) {
 		chats.append(message + "\n");
 	}
@@ -77,13 +83,13 @@ public class CInterface {
 				String msg = input.getText();
 				input.setText(null);
 				returnerVal = msg;
-		
+
 			} else {
 				returnerVal = null;
 			}
         }
     }
-	
+
 	public String readChat() {
 		if(returnerVal != null) {
 			String temp = returnerVal;
@@ -94,7 +100,4 @@ public class CInterface {
 			return returnerVal;
 		}
 	}
-	//public static void main(String[] args) {
-		//create
-	//}
 }

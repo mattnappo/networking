@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class SocketServer {
-	
+
 	Socket client;
 	ServerSocket server;
 	int port;
@@ -17,13 +17,13 @@ public class SocketServer {
 	ArrayList<Connection> clients;
 	ArrayList<String> msgs;
 	ArrayList<Thread> readers;
-	
+
 	public SocketServer() {
 		clients = new ArrayList<Connection>();
 		msgs = new ArrayList<String>(); // each time a message is recieved, add it to this arrayList
 		readers = new ArrayList<Thread>();
 		//writing thread in here
-		
+
 		Thread writer = new Thread() {
 			public void run() {
 				int msgsSent = 0;
@@ -45,14 +45,14 @@ public class SocketServer {
 						for(int i = 0; i < clients.size(); i++) {
 							clients.get(i).out.println(msg);
 						}
-						
+
 					}
 				}
 			}
 		};
 		writer.start();
 	}
-	
+
 	public String pop(ArrayList<String> queue) {
 		if(queue.size() != 0) {
 			String head = queue.get(0);
@@ -68,12 +68,12 @@ public class SocketServer {
 				while(true) {
 					try {
 						//Read a line from the client
-						
+
 						String line = pClient.in.readLine();
 						if(line!=null) {
 							msgs.add(line);
 						}
-						
+
 					} catch (java.io.IOException e) {
 						System.out.println("Read failed");
 						System.exit(-1);
@@ -83,7 +83,7 @@ public class SocketServer {
 		};
 		return read;
 	}
-	
+
 	public void listenSocket(){
 		//Creates server socket
 		try{
@@ -112,7 +112,7 @@ public class SocketServer {
 			    System.exit(-1);
 			}
 		}
-  
+
 	}
-	
+
 }
