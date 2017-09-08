@@ -20,8 +20,9 @@ public class SocketClient {
 	ArrayList<String> chats;
 	String ip;
 	
-	public SocketClient(String sip) {
+	public SocketClient(String sip, int sentPort) {
 		ip = sip;
+		port = sentPort;
 		InputBox inputBox = new InputBox();
 		inter = new CInterface();
 		users = new ArrayList<String>();
@@ -69,7 +70,6 @@ public class SocketClient {
 	}
 	public void connect() {
 		try {
-			port = 8000;
 			socket = new Socket(ip, port);
 			System.out.println("Connection established");
 

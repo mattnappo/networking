@@ -18,7 +18,8 @@ public class SocketServer {
 	ArrayList<String> msgs;
 	ArrayList<Thread> readers;
 
-	public SocketServer() {
+	public SocketServer(int sentPort) {
+		port = sentPort;
 		clients = new ArrayList<Connection>();
 		msgs = new ArrayList<String>(); // each time a message is recieved, add it to this arrayList
 		readers = new ArrayList<Thread>();
@@ -87,11 +88,10 @@ public class SocketServer {
 	public void listenSocket(){
 		//Creates server socket
 		try{
-			port = 8000;
 			server = new ServerSocket(port);
 			System.out.println("Server: Socket created");
 		} catch (java.io.IOException e) {
-			System.out.println("Could not listen on port " + port);
+			System.out.println("Could not listen on port " + port + " : " + e);
 			System.exit(-1);
 		}
 		//Creates connection and accepts client
