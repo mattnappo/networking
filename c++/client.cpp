@@ -15,7 +15,9 @@
 #include <fcntl.h>
 #include <fstream>
 using namespace std;
+class Client {
 
+}
 int main(int argc, char *argv[]) {
     if (argc != 3) {
         cerr << "Usage: <ip_address> <port>" << endl;
@@ -74,4 +76,3 @@ int main(int argc, char *argv[]) {
     cout << "Connection closed" << endl;
     return 0;    
 }
-
