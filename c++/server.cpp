@@ -18,7 +18,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
-        cerr << "Usage: port" << endl;
+        cerr << "Usage: <port>" << endl;
         exit(0);
     }
     int port = atoi(argv[1]); // Get the port number
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
     
     struct timeval start1, end1; // Keep track of session time
     gettimeofday(&start1, NULL);
-    int bytesRead, bytesWritten = 0; // Keep track of all traffic transmitted
+    int bytesRead, traffic = 0; // Keep track of all traffic transmitted
     while (1) {
         cout << "Awaiting client response..." << endl;
         memset(&msg, 0, sizeof(msg));//clear the buffer
@@ -80,14 +80,14 @@ int main(int argc, char *argv[]) {
             send(new_socket, (char*)&msg, strlen(msg), 0); // Send to the client that server has closed the connection
             break;
         }
-        bytesWritten += send(new_socket, (char*)&msg, strlen(msg), 0); // Send the message to client
+        traffic += send(new_socket, (char*)&msg, strlen(msg), 0); // Send the message to client
     }
     // Close all sockets
     gettimeofday(&end1, NULL);
     close(new_socket);
     close(server_socket);
     cout << "********Session********" << endl;
-    cout << "Bytes written: " << bytesWritten << " Bytes read: " << bytesRead << endl;
+    cout << "Bytes written: " << traffic << " Bytes read: " << bytesRead << endl;
     cout << "Elapsed time: " << (end1.tv_sec - start1.tv_sec) 
         << " secs" << endl;
     cout << "Connection closed..." << endl;
