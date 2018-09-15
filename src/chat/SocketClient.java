@@ -19,7 +19,7 @@ public class SocketClient {
 	CInterface inter;
 	ArrayList<String> chats;
 	String ip;
-	
+
 	public SocketClient(String sip, int sentPort) {
 		ip = sip;
 		port = sentPort;

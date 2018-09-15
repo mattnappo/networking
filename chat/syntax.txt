@@ -1,0 +1,5 @@
+to run client.jar:
+java -jar client.jar <ip> <port>
+
+to run server.jar
+java -jar server.jar <port>
